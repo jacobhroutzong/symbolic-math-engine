@@ -1,0 +1,9 @@
+/build*/
+/.reference-python/
+/reference-install.json
+/evidence/local/
+__pycache__/
+
+# Private raw reverse-engineering records and unreviewed decompilation excerpts.
+/evidence/rea/
+/docs/gmp-backend-investigation.md
