@@ -7,3 +7,7 @@ __pycache__/
 # Private raw reverse-engineering records and unreviewed decompilation excerpts.
 /evidence/rea/
 /docs/gmp-backend-investigation.md
+
+/.deps/
+/.wasm-tmp/
+/build-wasm/

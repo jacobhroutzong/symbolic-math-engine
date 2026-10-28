@@ -54,4 +54,7 @@ enum class Equivalence { Equal, Different, Unknown };
 // Exact polynomial identity, <=1024 expanded terms and powers <=16.
 // Partial rational functions outside this domain return Unknown.
 Equivalence polynomial_equivalence(const Expr &, const Expr &);
+// Exact normalization of the original trees, without first simplifying them.
+// Used to check simplifier output without trusting the simplifier itself.
+Equivalence polynomial_equivalence_raw(const Expr &, const Expr &);
 } // namespace ssm

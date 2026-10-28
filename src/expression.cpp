@@ -505,4 +505,13 @@ Equivalence polynomial_equivalence(const Expr &a, const Expr &b) {
     return Equivalence::Unknown;
   }
 }
+Equivalence polynomial_equivalence_raw(const Expr &a, const Expr &b) {
+  try {
+    int budget = 32768;
+    auto pa = polynomial(a, 0, budget), pb = polynomial(b, 0, budget);
+    return pa == pb ? Equivalence::Equal : Equivalence::Different;
+  } catch (const MathError &) {
+    return Equivalence::Unknown;
+  }
+}
 } // namespace ssm

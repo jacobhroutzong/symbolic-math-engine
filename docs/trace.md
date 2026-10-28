@@ -1,0 +1,5 @@
+# Checked polynomial simplification trace
+
+Native-only Phase4 API in include/ssm/trace.hpp. One aggregate simplify step is checked by polynomial_equivalence_raw, which normalizes the original tree without trusting simplify first. A trace is not a detailed rewrite derivation or a proof of the differentiator. Supported total polynomial expressions have direct integer powers1..16; division and x^0 are conservatively unsupported even when some special cases could be safe. At most256 nodes,depth64,arithmetic growth cost512; polynomial normalization retains term1024/degree128/work32768 budgets. Unsupported cases return the original expression, Unknown and no certified step. Different reports a failed proposed identity. Equal is exact within these implementation bounds, not a formal proof about the C++ implementation itself.
+
+Existing parser/arithmetic/differentiation behavior remains intact. New raw normalization avoids a shared-simplifier blind spot in validation. Native tests cover correct/incorrect steps, no-op traces, domain holes and growth rejection. The browser differentiation preview does not yet expose this API.

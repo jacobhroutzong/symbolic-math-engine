@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';
+import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
+const directory=process.argv[2];
+if(!directory)throw new Error('Supply WASM output directory');
+const engine=await(await import(pathToFileURL(resolve(directory,'symbolic.mjs')))).default();
+const result=JSON.parse(engine.differentiate('x^3+2*x','x'));
+assert.equal(result.ok,true);assert.equal(result.derivative,'((3*(x^2))+2)');
+assert.deepEqual(JSON.parse(engine.differentiate('x^0','x')).conditions,['x']);
+assert.deepEqual(JSON.parse(engine.differentiate('x/x','x')).conditions,['x']);
+for(const input of ['x^x','1/0','x^17','9'.repeat(65)])assert.equal(JSON.parse(engine.differentiate(input,'x')).ok,false);
+console.log('symbolic WASM smoke tests passed');

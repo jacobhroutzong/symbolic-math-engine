@@ -39,3 +39,15 @@ No equation solver, integration, transcendental functions, fractional/variable-p
 For hash-pinned reference acquisition: `python -m pip install --only-binary=:all: --require-hashes --target .reference-python -r requirements-reference.txt`. The native engine does not require these packages. A separate BUILD_TESTING=OFF build of library and CLI also passed on this machine.
 
 Publication status: the first local commit is prepared for review. The original-work license, repository name and intended public/private visibility need owner approval before any GitHub publication. See PUBLICATION.md.
+
+## Phase 4 browser preview
+
+See [browser build and limits](docs/browser.md). CI checks native C++ on Windows/Linux and builds a pinned Emscripten module on Linux. Workflow execution and public release are pending; see [release review](PUBLICATION.md).
+
+## Checked transformation trace (native Phase 4)
+
+See [trace scope and limits](docs/trace.md). Two added trace cases bring the current full local suite to 12 CTest entries (11 native + the independent Python reference entry); the dated milestone-1 result above remains 10. CI without the optional Python reference runs 11 entries. Browser differentiation does not expose the native trace API.
+
+## License and repository
+
+[symbolic-math-engine](https://github.com/jacobhroutzong/symbolic-math-engine) — MIT. See [third-party notices](THIRD_PARTY_NOTICES.md). Original research binaries and raw decompilation are excluded.

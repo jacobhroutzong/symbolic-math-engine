@@ -1,11 +1,7 @@
-# Publication readiness
+# Release review — 28 October 2026
 
-Local commit only. No remote repository or visibility has been selected. Do not publish until the owner approves an original-work license, repository name and intended public/private visibility. No open-source license is implied by preparing a Git commit.
+Approved repository: https://github.com/jacobhroutzong/symbolic-math-engine, public. Owner explicitly authorized publication after provenance/CI review.
 
-Included: original C++20 source, public headers, CMake build, automated tests, CLI adapter, hash-pinned optional reference requirements, build/semantics/validation documentation and a factual research summary.
+License decision: **MIT**. No original executables, decompiled excerpts, local datasets, credential files, dependency caches or generated toolchains are included. See THIRD_PARTY_NOTICES.md and docs/proposed-release-files.txt. Source-only release; WebAssembly distribution on the portfolio retains runtime notices and source-commit manifests. GoogleTest and Python reference packages are external test dependencies. CI results must be green before portfolio release.
 
-Excluded: build products, executable/DLL/archive files, optional SymPy/mpmath installation, raw REA dossiers and bundles, decompiled excerpts, local analysis logs, personal paths, datasets and machine configuration. Existing ignored originals are preserved on disk.
-
-Dependencies: native core uses the C++ standard library. GoogleTest is supplied externally for tests; its source/notices are not vendored. Optional SymPy/mpmath references are separately acquired from PyPI with pinned wheel hashes and retain their own licenses. The engine does not link to or redistribute GMP.
-
-Validation: 10/10 CTest entries passed on Windows/MSVC, including 366 independent reference cases; standalone BUILD_TESTING=OFF builds passed. Cross-platform CI and sanitizers remain unexecuted. Public source release awaits the decisions above.
+This review covers the proposed source inventory, not redistribution of the research binaries. Binary provenance/behavior observations remain distinct from source-license review and independently implemented mathematics. No original-binary behavioral equivalence is claimed.
