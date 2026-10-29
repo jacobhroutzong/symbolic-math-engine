@@ -34,5 +34,14 @@ manifest={'compiler':version,'engine':args.engine,'sources':{f:hashlib.sha256((a
           'buildScriptSha256':hashlib.sha256(pathlib.Path(__file__).read_bytes()).hexdigest(),
           'outputs':{f.name:{'sha256':hashlib.sha256(f.read_bytes()).hexdigest(),'bytes':f.stat().st_size} for f in [args.out/(args.engine+'.mjs'),args.out/(args.engine+'.wasm')]},
           'flags':command[2:command.index('-I')],'scope':'Private development build; publication licensing approval pending'}
+def canonical_hash(path):
+    return hashlib.sha256(path.read_bytes().replace(b'\r\n',b'\n')).hexdigest()
+manifest['sources']={f:canonical_hash(args.source/f) for f in sources}
+manifest['headers']={str(f.relative_to(args.source)).replace('\\','/'):canonical_hash(f) for f in sorted((args.source/'include').rglob('*.hpp'))}
+manifest['buildScriptSha256']=canonical_hash(pathlib.Path(__file__))
+manifest['sourceHashing']='SHA-256 of UTF-8 source bytes with CRLF normalized to LF'
+manifest['sourceCommit']=subprocess.check_output(['git','-C',str(args.source),'rev-parse','HEAD'],text=True).strip()
+manifest['sourceTreeClean']=not subprocess.check_output(['git','-C',str(args.source),'status','--porcelain','--untracked-files=normal'],text=True).strip()
+manifest['scope']='Source-only project license and third-party notices apply; retain runtime notices when distributing generated artifacts'
 (args.out/(args.engine+'-manifest.json')).write_text(json.dumps(manifest,indent=2),encoding='utf-8')
 print(json.dumps(manifest,indent=2))
