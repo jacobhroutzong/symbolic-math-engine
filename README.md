@@ -1,4 +1,30 @@
 # Symbolic Mathematics Engine
+
+## Phase 5 draft: bounded exact linear equations
+
+`solve_linear_equation(lhs,rhs,variable)` returns an exact rational root,
+NoSolution, Identity on the original domain, or Unsupported. It retains
+nonzero conditions, emits typed conditional-algebra trace events and verifies
+candidate roots against both original ASTs. See
+[scope, semantics and budgets](docs/phase5-linear-equations.md). The existing
+parser, simplifier, differentiator and trace APIs remain unchanged; general
+polynomial solving and rational factor cancellation are outside this draft.
+
+Native tests plus optional independent references now have17 entries:
+15 GoogleTest cases and2 Python/SymPy reference tests. New references cover255
+cases; the existing366 reference fixtures remain in place. Configure
+`SSM_REFERENCE_PYTHON` and optionally `SSM_REFERENCE_SITE` for an existing
+SymPy1.14.0 environment. For example:
+
+```sh
+python tests/linear_equation_reference.py --probe build/Release/linear_equation_probe.exe --reference-path /path/to/site-packages
+```
+
+This branch is a native-only engineering draft. Phase4 production source pins,
+browser bundles, licenses and APIs are preserved.
+
+The following sections retain earlier milestone validation snapshots. The
+Phase5 count above describes the current draft branch.
 Independent C++20 exact symbolic core, milestone 1, 2026-10-26. No C++ runtime dependencies beyond the standard library. This is independently developed mathematics, not proprietary Wolfram code or a reconstruction of GMP.
 
 Implemented: dynamically sized signed integers (base 10^9), normalized rationals, immutable expression trees, precedence-aware parsing, deterministic round-trip printing, structural equality, conservative simplification, checked integer-power differentiation with original-domain conditions, bounded exact polynomial identity checking and LaTeX serialization.

@@ -1,0 +1,13 @@
+{
+  "seed": 20261104,
+  "sympy": "1.14.0",
+  "cases": 255,
+  "counts": {
+    "unique": 238,
+    "identity": 4,
+    "none": 7,
+    "unsupported": 6
+  },
+  "probe_sha256": "d15781de201607ac44ada7c07da5ff6fdc65abed46b35a6396b4cd8122a66c00",
+  "scope": "Exact SymPy solve/cleared polynomial references with separately retained syntactic domain holes; not original-binary equivalence"
+}
