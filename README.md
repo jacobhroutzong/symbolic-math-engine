@@ -1,6 +1,6 @@
 # Symbolic Mathematics Engine
 
-## Phase 5 draft: bounded exact linear equations
+## Phase 5 bounded exact linear equations
 
 `solve_linear_equation(lhs,rhs,variable)` returns an exact rational root,
 NoSolution, Identity on the original domain, or Unsupported. It retains
@@ -8,11 +8,11 @@ nonzero conditions, emits typed conditional-algebra trace events and verifies
 candidate roots against both original ASTs. See
 [scope, semantics and budgets](docs/phase5-linear-equations.md). The existing
 parser, simplifier, differentiator and trace APIs remain unchanged; general
-polynomial solving and rational factor cancellation are outside this draft.
+polynomial solving and rational factor cancellation are outside the solver’s scope.
 
-Native tests plus optional independent references now have17 entries:
-15 GoogleTest cases and2 Python/SymPy reference tests. New references cover255
-cases; the existing366 reference fixtures remain in place. Configure
+The native and reference suite has 17 entries, including 15 GoogleTest cases
+and 2 Python/SymPy reference tests. The equation reference covers 255 cases,
+in addition to the 366 earlier reference fixtures. Configure
 `SSM_REFERENCE_PYTHON` and optionally `SSM_REFERENCE_SITE` for an existing
 SymPy1.14.0 environment. For example:
 
@@ -20,11 +20,10 @@ SymPy1.14.0 environment. For example:
 python tests/linear_equation_reference.py --probe build/Release/linear_equation_probe.exe --reference-path /path/to/site-packages
 ```
 
-This branch is a native-only engineering draft. Phase4 production source pins,
-browser bundles, licenses and APIs are preserved.
+The equation solver is a native C++ API. The Phase 4 browser bundle provides
+differentiation and reports its original domain restrictions.
 
-The following sections retain earlier milestone validation snapshots. The
-Phase5 count above describes the current draft branch.
+The following sections retain earlier milestone validation snapshots.
 Independent C++20 exact symbolic core, milestone 1, 2026-10-26. No C++ runtime dependencies beyond the standard library. This is independently developed mathematics, not proprietary Wolfram code or a reconstruction of GMP.
 
 Implemented: dynamically sized signed integers (base 10^9), normalized rationals, immutable expression trees, precedence-aware parsing, deterministic round-trip printing, structural equality, conservative simplification, checked integer-power differentiation with original-domain conditions, bounded exact polynomial identity checking and LaTeX serialization.
@@ -47,7 +46,8 @@ python -B tests/reference.py --cli build/Release/symbolic_cli.exe --reference-pa
 MSVC 19.44/x64 Release: 10/10 CTest entries passed (nine GoogleTest cases plus an independent reference test). Reference checked 200 large signed-integer cases, 100 rationals and 66 symbolic expressions. This is sampled exact mathematical validation, not original-binary differential validation or general correctness proof. See docs/semantics.md and docs/validation.md.
 
 ## API and CLI
-Public headers: include/ssm/{integer,rational,expression}.hpp.
+Public headers include `integer.hpp`, `rational.hpp`, `expression.hpp`,
+`trace.hpp`, and `linear_equation.hpp` under `include/ssm`.
 The batch CLI reads three tab-separated fields per line and returns ok plus tab-separated results, or error plus a diagnostic:
 ```text
 derive<TAB>(x+1)^3+2*x<TAB>x
@@ -60,19 +60,17 @@ Replace <TAB> with a literal tab. derive returns simplified input, derivative, s
 ## Evidence and limitations
 [REA arithmetic-backend summary](docs/research-summary.md) records a narrow compiled rational-canonicalization observation. GMP is an arithmetic backend, not a complete CAS. Our base-10^9 integers, parser, AST and derivatives are new designs. Binary observations, published references, theory and design choices remain separate.
 
-No equation solver, integration, transcendental functions, fractional/variable-power differentiation, general equivalence prover or rewrite-proof engine is implemented. No original DLL was executed. Public repository publication and original-work license selection remain pending; existing third-party package licenses are retained in the isolated reference installation, which is excluded from distribution.
+Integration, transcendental functions, fractional or variable-power differentiation, general equivalence, and general rewrite proofs are outside the engine’s scope. The original DLL evidence comes from static analysis. The isolated reference environment retains the third-party package licenses.
 
 For hash-pinned reference acquisition: `python -m pip install --only-binary=:all: --require-hashes --target .reference-python -r requirements-reference.txt`. The native engine does not require these packages. A separate BUILD_TESTING=OFF build of library and CLI also passed on this machine.
 
-Publication status: the first local commit is prepared for review. The original-work license, repository name and intended public/private visibility need owner approval before any GitHub publication. See PUBLICATION.md.
+## Phase 4 browser release
 
-## Phase 4 browser preview
-
-See [browser build and limits](docs/browser.md). CI checks native C++ on Windows/Linux and builds a pinned Emscripten module on Linux. Workflow execution and public release are pending; see [release review](PUBLICATION.md).
+See [browser build and limits](docs/browser.md). CI checks native C++ on Windows/Linux and builds a pinned Emscripten module on Linux. The public browser release uses the Phase 4 differentiation adapter. See the [release review](PUBLICATION.md).
 
 ## Checked transformation trace (native Phase 4)
 
-See [trace scope and limits](docs/trace.md). Two added trace cases bring the current full local suite to 12 CTest entries (11 native + the independent Python reference entry); the dated milestone-1 result above remains 10. CI without the optional Python reference runs 11 entries. Browser differentiation does not expose the native trace API.
+See [trace scope and limits](docs/trace.md). The Phase 4 snapshot had 12 CTest entries, including 11 native tests and one independent Python reference test. Browser differentiation does not expose the native trace API.
 
 ## License and repository
 
